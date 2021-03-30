@@ -1,0 +1,173 @@
+** Resumen PHP OOP ** 
+# Para crear classes en PHP se utiliza la palabra reservada class, se recomienda crearlas con mayuscula.
+# $this -> hace referencia al objeto que se esta llamando.
+# Protected significa que solo se puede acceder por medio de la clase (via Getter) y de las subclasses
+# También existen los métodos estaticos, estos tienen como caracteristica que no requieres instanciar la clase y puedes acceder por medio de la clase en lugar del objeto.
+# Una clase abstracta es una que no se puede instanciar, en cambio sirve como base para otras clases.
+# Las interfaces son plantillas para tus classes, no es buena idea poner abstración o lógica en ella, solo la forma que deberán tener las classes
+# Los namespaces llegan a ser útiles porque es como un Paquete, y tiene la caracteristica de que incluso 2 classes que se llamen igual pueden ser utilizadas
+
+** Artisan **
+# Artisan es el CLI incluido en Laravel, cuenta con una gran cantidad de comandos. Correr migraciones, arrancar el servidor, crear controladores o modelos son tareas que se simplifican con  artisan.
+# php artisan list -> para ver la lista de comandos disponibles.
+# php artisan help serve -> para ver que parámetros tenemos con serve
+
+** Laravel instalación y inicio **
+# composer global require laravel/installer -> instalar laravel
+# Despues dentro de la variables de entorno->path añadimos la siguiente ruta para poder trabajar con el comando laravel: C:\Users\Sergi\AppData\Roaming\Composer\vendor\bin
+# laravel new nombreProyecto -> Creamos un NUEVO proyecto de laravel.
+# php artisan serve -> para iniciar el proyecto en un servidor.
+# Si hacemos canvios en el archivo .env tenemos que reiniciar el servidor.
+# En el fichero .env se define la conexión a la base de datos.
+# return view('recetas.index')->with('recetas',$recetas) pasamos valores hacia la vista. También podemos usar compact para pasar valores a la vista.
+# php artisan ui bootstrap -> para instalar bootstrap
+# php artisan ui vue -> para instalar vue
+# npm install -> para instalar los dos paquetes anteriores.
+# npm run dev -> para compilar los dos paquetes.
+# npm run watch -> para confirmar los cambios.
+# Si hacemos cambios en los estilos scss, ... tenemos que correr npm run watch y este estara escuchando los cambios.
+
+** Controller **
+# Crear un controller -> php artisan make:controller NombreController . Los controladores siempre en mayúscula la primera palabra.
+# Un controlador con un sólo método se recomienda que se llame __invoke()
+# php artisan make:controller NombreController -i -> nos crea un __invoke
+
+** Blade **
+# Es el template engine incluido en Laravel para V en MVC, encargado de lo que se ve en pantalla.
+# Deben llevar el nombre blade.php
+# Se almacenan en la carpeta resources/views
+# Se puede crear un layout principal e incluirlo en los hijos, de esta forma la cantidad de código repetido es mínima.
+# {{ $titulo }} en vez de echo.
+# {!! $receta->ingredientes !!} -> Imprimir HTML
+# @php @endphp -> añadir codigo php
+
+** Routing **
+# Soporte a las peticiones HTTP.
+# API o Web son las mas comunes. web.php -> para mostrar algunas vistas, api.php -> para una respuesta json. Este tiene /api/
+# Se puede agregar un Controller (Recomendado) o un Closure (ideal si no crees necesitar un Controller)
+# Con un Controller: 
+Route::get('/'. 'ClientesController@index');
+# Con Closure: Route::get('/', function(){
+    return 'Contenido desde Closure'
+})
+# https://stackoverflow.com/questions/63807930/target-class-controller-does-not-exist-laravel-8 -> para solucionar el problema de la version 8 laravel con Route::get('/'. 'ClientesController@index');
+
+** Crear admin **
+# composer require laravel/ui -> para que tengamos acceso a la creación del auth client.
+# php artisan ui:auth
+# Dentro de RouteServiceProvider.php configuramos la ruta de redireccion.
+
+** Migraciones **
+# Control de versiones para tu base de datos.
+# Se puede generar la migración al crear el modelo.
+# php artisan make:model Clientes --migration -> Para crear una migración.
+# Una vez creada una migración se puede ejecutar con artisan. -> php artisan migrate
+# Tipo de columnas: bigIncrements (Ideal para primary key), char, float (decimales), integer, string (tipo varchar), text.
+# php artisan migrate:rollback -> elimina todas las migraciones.
+# php artisan tinker -> insertar datos desde la consola.
+# php artisan migrate:fresh -> limpia la base de datos y vuelve a subir las migraciones.
+# El modelo es en singular y la tabla en plural de la base de datos.
+# php artisan migrate --path=/database/migrations -> esto solo migra la tablas que no estan migradas
+
+** Eloquent **
+# Un ORM nos permite conectar los objetos de una aplicación con las tablas en una base de datos, gracias a un ORM es fácil realizar las operaciones en la base de datos en lugar de escribir código SQL.
+En el caso de laravel el ORM es llamado Eloquent.
+El ORM usualmente funciona sobre la MVC, cada tabla en tu base de datos deberá tener un Modelo asociado a ella.
+# php artisan make:model Clientes -> Si el modelo se llama Clientes, laravel va a generar la tabla clientes.
+# Relación entre tablas las genera Eloquent: 1:1 hasOne, 1:n hasMany, n:n belongsToMany. También otras van al order inverso 1:1 belongsTo, 1:n belongsTo, n:n belongsToMany
+
+** Resource Controller **
+# Guia de buenas prácticas por ejemplo si ponemos una URL /photos/create tenemos que crear una función llamada create.
+# php artisan make:controller RecetaController -r -> crea un controlador de tipo resource.
+
+** Modelo / migración / controlador **
+# php artisan make:model Receta -mcr -> crea el modelo, migracion i el controlador de tipo resource.
+
+** Instalar traducciones **
+# composer require laraveles/spanish -> para activar la instalación de idiomas.
+# php artisan laraveles:install-lang -> confirmar el nuevo idioma.
+# Despues cambiamos en config/app.php en el apartado locale a es .
+
+** Seeders **
+# Llenar algunos datos por defecto a la base de datos.
+# php artisan make:seeder CategoriasSeeder
+# php artisan db:seed -> sube el seed
+# Si limpiamos la base de datos los seed se mantienen.
+
+** Controlador **
+# pluck -> es como hacer un select de las tablas a la base de datos.
+
+** Imagen **
+# Crear una ruta simbolica para acceder publicamente: php artisan storage:link
+# composer require intervention/image -> efectos en imagen
+
+** Librerías **
+# Instalamos paquetes desde resources/js/bootstrap.js y en la terminal ponemos npm run watch
+
+** Vue **
+# Siempre que trabajemos con vue tenemos que tener activado en el terminal la opcion npm run watch
+
+** Políticas usuarios (privilegios) **
+# php artisan make:policy NombreDelPolicy -m NombreModelo -> Crear una política 
+
+** Helpers laravel **
+# Auth::user() -> permite acceder a información del usuario que ha iniciado sesión (desde cualquier lugar).
+
+** Paginación **
+# En el controller ponemos paginate() para paginar las páginas.
+# En el view llamamos a links() para mostrar la paginación.
+
+** Query builder **
+# Sintaxis parecida a SQL
+
+** Service provider **
+# Dentro de config/app.php tenemos todos los providers disponibles (registrados).
+# Manejador de estado para que este disponible en todas las páginas.
+# php artisan make:provider NombreDelProvider -> crear un nuevo provider. Se guarda dentro de http/providers/
+
+** Pasos para crear un proyecto inicial de laravel desde 0 **
+# laravel new nombreProyecto
+# Entramos des del terminal al proyecto.
+# Creamos la base de datos
+# Abrimos el .env en la raíz del proyecto para configurar la conexión a la base datos.
+# composer require laravel/ui -> para agregar laraverl/ui (autenticación)
+# php artisan ui:auth -> para completar la autenticación
+# php artisan ui vue -> agregar vue
+# Por defecto laravel trabaja con bootstrap.
+# php artisan ui bootstrap -> para instalar bootstrap
+# npm i -> para instalar las dependecias.
+# npm run watch -> para compilar todo.
+
+** Instalar otro framework CSS (Tailwind) **
+# npm install --save-dev tailwindcss laravel-mix-tailwind
+# npx tailwindcss init -> crea un archivo de configuración de tailwind en la raíz del proyecto.
+# Miramos que el fitxero de la raíz se llame tailwind
+# Dentro de webpack.mix.js -> llamamos a tailwind
+# Dentro de app.scss eliminamos bootstrap e importamos tailwind.
+
+** Notificaciones **
+# php artisan make:notification NombreNotificacion
+
+** Middleware **
+# php artisan make:middleware NombreMiddleware -> para poner condiciones por ejemplo sólo puedes crear X elementos.
+
+** Vue computed vs methods **
+# computed es cuándo está listo el documento, los métodos esperan que succeda una evento.
+
+** Vuex **
+# Patrón para administrar los estados.
+# npm i --save-dev vuex -> instalar vuex
+
+** Vue-router **
+# npm i vue-router -> router de vue
+
+** Mostrar mapa frontEnd **
+# npm i --save-dev vue2-leaflet -> para trabajar vue con leaflet
+# npm i --save leaflet -> instalamos dependencias de leaflet
+
+
+
+
+
+
+
