@@ -68,6 +68,7 @@ Route::get('/'. 'ClientesController@index');
 # php artisan migrate:fresh -> limpia la base de datos y vuelve a subir las migraciones.
 # El modelo es en singular y la tabla en plural de la base de datos.
 # php artisan migrate --path=/database/migrations -> esto solo migra la tablas que no estan migradas
+# constrained() -> para vincular una columna con otra columna de otra tabla.
 
 ** Eloquent **
 # Un ORM nos permite conectar los objetos de una aplicación con las tablas en una base de datos, gracias a un ORM es fácil realizar las operaciones en la base de datos en lugar de escribir código SQL.
@@ -132,11 +133,26 @@ El ORM usualmente funciona sobre la MVC, cada tabla en tu base de datos deberá 
 # Abrimos el .env en la raíz del proyecto para configurar la conexión a la base datos.
 # composer require laravel/ui -> para agregar laraverl/ui (autenticación)
 # php artisan ui:auth -> para completar la autenticación
-# php artisan ui vue -> agregar vue
-# Por defecto laravel trabaja con bootstrap.
-# php artisan ui bootstrap -> para instalar bootstrap
+# php artisan ui vue -> agregar vue.
+# php artisan ui bootstrap -> para instalar bootstrap. Por defecto laravel trabaja con bootstrap.
 # npm i -> para instalar las dependecias.
 # npm run watch -> para compilar todo.
+# https://stackoverflow.com/questions/51249164/php-artisan-migrate-error-illuminate-database-queryexception-sqlstatehy00 -> error con use Illuminate\Support\Facades\Schema
+# php artisan serve -> para iniciar el servidor.
+# php artisan migrate:fresh -> migrar tablas de los usuarios auth.
+# Configurar idioma.
+# Crear modelo en singular, controller y migración (Resource controller).
+# Definir la migración de este nuevo elemento.
+# php artisan migrate:fresh
+# php artisan make:seeder NombreSeeder -> Para poner datos por defecto.
+# php artisan db:seed -> para cargar el seed
+# Definir las rutas en el web.php
+# Canviar ruta después del login: Http/Controllers/Auth/LoginController.php
+# Completar los campos del controller: index, create, store, show, edit, update y destroy.
+# https://stackoverflow.com/questions/63807930/target-class-controller-does-not-exist-laravel-8 -> Target class [NoticiaController] does not exist.
+# Definir posibles relaciones entre tablas.
+# Definir en el modelo creado el protected $fillable para saber que valores se subiran a la BD.
+# Definar los policy para añadirlos en el controller creado.
 
 ** Instalar otro framework CSS (Tailwind) **
 # npm install --save-dev tailwindcss laravel-mix-tailwind
@@ -150,6 +166,9 @@ El ORM usualmente funciona sobre la MVC, cada tabla en tu base de datos deberá 
 
 ** Middleware **
 # php artisan make:middleware NombreMiddleware -> para poner condiciones por ejemplo sólo puedes crear X elementos.
+
+** Vue componentes **
+# Se crean en resources/js/components
 
 ** Vue computed vs methods **
 # computed es cuándo está listo el documento, los métodos esperan que succeda una evento.
